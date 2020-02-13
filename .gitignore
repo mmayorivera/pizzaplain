@@ -106,3 +106,10 @@ dist
 .tern-port
 /client/node_modules
 /server/node_modules/
+.idea
+/.idea/vcs.xml
+/.idea/pizzaplain.iml
+/.idea/modules.xml
+/.idea/misc.xml
+/.idea/.gitignore
+/.DS_Store

@@ -16,14 +16,14 @@ export class IngredientsRouter {
         const response = new IngredientsReponse();
         const request = new IngredientsRequest();
         response.payload = new IngredientsResponsePayload();
-        const _ingredientsService = new IngredientsService();
+        const _ingredientsService = new IngredientsService(req['db']);
         const startTime = humanize.time();
         try{
             const list = await _ingredientsService.count();
             const endMark = humanize.time();
             const elapsed =  endMark - startTime;
             response.payload = list;
-            response.message = ` ${ list.records }(s) ${IngredientsRouter.name} [${elapsed} (ms)]`;
+            response.message = ` ${ list.records.length }(s) ${IngredientsRouter.name} [${elapsed} (ms)]`;
         } catch(err) {
             console.log(err);
 

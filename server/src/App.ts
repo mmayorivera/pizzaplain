@@ -2,10 +2,11 @@ import * as express from 'express';
 import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
 import * as path from "path";
-import {config} from "dotenv";
+import {config} from './config';
 import * as logger from 'morgan';
 import * as ApiGeneralModels from './shared/models/api/general';
 import IngredientsRouter from "./routes/ingredients.router";
+var connection = require('./dbconnection');
 
 class App {
     // ref to Express instance
@@ -26,6 +27,7 @@ class App {
         this.express.set('view engine', 'ejs');
         this.express.use(cors());
         this.express.use(logger('dev'));
+        this.express.use(connection(this.express, config.mongo.url, config.mongo.options));
         this.express.use('/node_modules', express.static(__dirname + '/node_modules'));
         this.express.use(express.static('public'));
         this.express.use(express.static(path.resolve(__dirname, 'client')));

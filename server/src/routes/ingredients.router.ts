@@ -8,7 +8,6 @@ export class IngredientsRouter {
 
     constructor() {
         this.router = Router();
-
         this.init();
     }
 
@@ -23,10 +22,8 @@ export class IngredientsRouter {
             const endMark = humanize.time();
             const elapsed =  endMark - startTime;
             response.payload = list;
-            response.message = ` ${ list.records.length }(s) ${IngredientsRouter.name} [${elapsed} (ms)]`;
+            response.message = ` ${ list.records }(s) ${IngredientsRouter.name} [${elapsed} (ms)]`;
         } catch(err) {
-            console.log(err);
-
             if(err instanceof InvalidRequest){
                 response.message = err.message;
                 res.statusCode = 400;//bad request
@@ -38,13 +35,12 @@ export class IngredientsRouter {
         res.send(response);
     }
 
-
     public async all(req: Request, res: Response, next: NextFunction){
-        var response = new IngredientsReponse();
-        var request= new IngredientsRequest();
+        const response = new IngredientsReponse();
+        const request= new IngredientsRequest();
         request.payload = req.query;
         response.payload = new IngredientsResponsePayload();
-        var _ingredientsService = new _ingredientsService();
+        const _ingredientsService = new IngredientsService(req['db']);
         const startTime = humanize.time();
         try{
             if(request.payload.page==null){
@@ -61,7 +57,39 @@ export class IngredientsRouter {
             const endMark = humanize.time();
             const elapsed =  endMark - startTime;
             response.payload = events;
-            response.message = ` ${ events.records }(s) ${IngredientsRouter.name} [${elapsed} (ms)]`;
+            response.message = ` ${ events.records.length }(s) ${IngredientsRouter.name} [${elapsed} (ms)]`;
+        } catch(err) {
+            if(err instanceof InvalidRequest){
+                response.message = err.message;
+                res.statusCode = 400;//bad request
+            }else{
+                response.message = "error";
+                res.statusCode = 500;//internal server error
+            }
+        }
+        res.send(response);
+    }
+
+    public async add(req: Request, res: Response, next: NextFunction){
+        const response = new IngredientsReponse();
+        const request= new IngredientsRequest();
+        request.payload = req.query;
+        response.payload = new IngredientsResponsePayload();
+        var _ingredientsService = new IngredientsService(req['db']);
+        const startTime = humanize.time();
+        try{
+            if(request.payload==null){
+                throw new InvalidRequest("Page No. is missing");
+            } else if(request.payload.limit==null){
+                throw new InvalidRequest("Limit is missing");
+            }
+            var events = await _ingredientsService.add(
+                {}
+            );
+            const endMark = humanize.time();
+            const elapsed =  endMark - startTime;
+            response.payload = events;
+            response.message = ` ${ events.records.length }(s) ${IngredientsRouter.name} [${elapsed} (ms)]`;
         } catch(err) {
             if(err instanceof InvalidRequest){
                 response.message = err.message;

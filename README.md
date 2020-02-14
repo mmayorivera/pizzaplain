@@ -31,5 +31,4 @@ type Pizza @model
   id: String!
   name: String!
   toppingsList: String!
-  toppingObjs: String
 }

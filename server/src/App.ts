@@ -6,7 +6,7 @@ import {config} from './config';
 import * as logger from 'morgan';
 import * as ApiGeneralModels from './shared/models/api/general';
 import IngredientsRouter from "./routes/ingredients.router";
-var connection = require('./dbconnection');
+const connection = require('./dbconnection');
 
 class App {
     // ref to Express instance

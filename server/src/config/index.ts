@@ -1,4 +1,4 @@
-
+const dotenv = require('dotenv');
 // Load environment variables from .env file
 dotenv.config();
 
@@ -8,7 +8,7 @@ const configs = {
         env,
         name: process.env.APP_NAME || 'rest-api-mongo',
         host: process.env.APP_HOST || '0.0.0.0',
-        port: process.env.APP_PORT || 7070,
+        port: process.env.APP_PORT || 8080,
     },
     production: {
         port: process.env.APP_PORT || 7071,

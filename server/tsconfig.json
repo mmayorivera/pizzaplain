@@ -2,7 +2,9 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es5",
-    "sourceMap": true
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "experimentalDecorators": true
   },
   "exclude": [
     "node_modules"

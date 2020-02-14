@@ -5,6 +5,7 @@ import * as path from "path";
 import {config} from "dotenv";
 import * as logger from 'morgan';
 import * as ApiGeneralModels from './shared/models/api/general';
+import IngredientsRouter from "./routes/ingredients.router";
 
 class App {
     // ref to Express instance
@@ -18,7 +19,7 @@ class App {
     }
 
     private models():void{
-        // var eventModel = new EventModel();
+        // var _ingredientsModel = new IngredientsModel();
     }
     // Configure Express middleware.
     private middleware(): void {
@@ -63,7 +64,7 @@ class App {
         //     res.sendFile(__dirname + '/client/index.html');
         // });
         this.express.use('/', router);
-        // this.express.use('/api/v1/user', UserRouter);
+        this.express.use('/api/v1/ingr', IngredientsRouter);
     }
 
 }

@@ -2,10 +2,12 @@ const log4js = require('log4js');
 const logger = log4js.getLogger('IngredientsService');
 import {config} from '../config';
 const ObjectID = require('mongodb').ObjectID;
-export class IngredientsService {
-    public model:string = 'Ingredient';
+
+export class DataService {
+    public model:string;
     client: any;
-    constructor(connection: any) {
+    constructor(connection: any, model: string) {
+        this.model = model;
         this.client = connection.db(config.mongo.dbName).collection(this.model);
     }
 
@@ -141,4 +143,4 @@ export class IngredientsService {
 
 }
 
-export default IngredientsService;
+export default DataService;

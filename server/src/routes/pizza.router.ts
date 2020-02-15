@@ -1,20 +1,19 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import {IngredientsReponse, IngredientsRequest, IngredientsResponsePayload} from '../shared/models/api/ingredients';
+import {PizzaReponse, PizzaRequest, PizzaResponsePayload} from '../shared/models/api/pizza';
 import { InvalidRequest } from '../shared/models/exceptions/ingredients';
 import DataService from "../services/data.service";
 const humanize = require('humanize');
-const modelName = 'Ingredients';
-export class IngredientsRouter {
+const modelName = 'Pizza';
+export class PizzaRouter {
     router: Router;
-
     constructor() {
         this.router = Router();
         this.init();
     }
 
     public async count(req: Request, res: Response, next: NextFunction){
-        const response = new IngredientsReponse();
-        response.payload = new IngredientsResponsePayload();
+        const response = new PizzaReponse();
+        response.payload = new PizzaResponsePayload();
         const _ingredientsService = new DataService(req['db'], modelName);
         const startTime = humanize.time();
         try{
@@ -36,11 +35,10 @@ export class IngredientsRouter {
     }
 
     public async all(req: Request, res: Response, next: NextFunction){
-        const self = this;
-        const response = new IngredientsReponse();
-        const request= new IngredientsRequest();
+        const response = new PizzaReponse();
+        const request= new PizzaRequest();
         request.payload = req.query;
-        response.payload = new IngredientsResponsePayload();
+        response.payload = new PizzaResponsePayload();
         const _ingredientsService = new DataService(req['db'], modelName);
         const startTime = humanize.time();
         try{
@@ -72,10 +70,10 @@ export class IngredientsRouter {
     }
 
     public async add(req: Request, res: Response, next: NextFunction){
-        const response = new IngredientsReponse();
-        const request= new IngredientsRequest();
+        const response = new PizzaReponse();
+        const request= new PizzaRequest();
         request.payload.body = req.body;
-        response.payload = new IngredientsResponsePayload();
+        response.payload = new PizzaResponsePayload();
         var _ingredientsService = new DataService(req['db'], modelName);
         const startTime = humanize.time();
         try{
@@ -88,7 +86,7 @@ export class IngredientsRouter {
             const endMark = humanize.time();
             const elapsed =  endMark - startTime;
             response.payload = events;
-            response.message = ` ${ events.records.count }(s) ${modelName} [${elapsed} (ms)]`;
+            response.message = ` ${ events.records.count }(s) ${PizzaRouter.name} [${elapsed} (ms)]`;
         } catch(err) {
             if(err instanceof InvalidRequest){
                 response.message = err.message;
@@ -102,12 +100,12 @@ export class IngredientsRouter {
     }
 
     public async update(req: Request, res: Response, next: NextFunction){
-        const response = new IngredientsReponse();
-        const request= new IngredientsRequest();
+        const response = new PizzaReponse();
+        const request= new PizzaRequest();
         request.payload.id = req.params.id;
         request.payload.body = req.body;
-        response.payload = new IngredientsResponsePayload();
-        var _ingredientsService = new DataService(req['db'], modelName);
+        response.payload = new PizzaResponsePayload();
+        var _ingredientsService = new DataService(req['db'],modelName);
         const startTime = humanize.time();
         try{
             if(request.payload.body==null){
@@ -137,10 +135,10 @@ export class IngredientsRouter {
     }
 
     public async delete(req: Request, res: Response, next: NextFunction){
-        const response = new IngredientsReponse();
-        const request= new IngredientsRequest();
+        const response = new PizzaReponse();
+        const request= new PizzaRequest();
         request.payload.id = req.params.id;
-        response.payload = new IngredientsResponsePayload();
+        response.payload = new PizzaResponsePayload();
         var _ingredientsService = new DataService(req['db'], modelName);
         const startTime = humanize.time();
         try{
@@ -153,7 +151,7 @@ export class IngredientsRouter {
             const endMark = humanize.time();
             const elapsed =  endMark - startTime;
             response.payload = events;
-            response.message = ` ${ events.records.count }(s) ${IngredientsRouter.name} [${elapsed} (ms)]`;
+            response.message = ` ${ events.records.count }(s) ${modelName} [${elapsed} (ms)]`;
         } catch(err) {
             if(err instanceof InvalidRequest){
                 response.message = err.message;
@@ -167,10 +165,10 @@ export class IngredientsRouter {
     }
 
     public async byId(req: Request, res: Response, next: NextFunction){
-        const response = new IngredientsReponse();
-        const request= new IngredientsRequest();
+        const response = new PizzaReponse();
+        const request= new PizzaRequest();
         request.payload.id = req.params.id;
-        response.payload = new IngredientsResponsePayload();
+        response.payload = new PizzaResponsePayload();
         var _ingredientsService = new DataService(req['db'], modelName);
         const startTime = humanize.time();
         try{
@@ -207,6 +205,6 @@ export class IngredientsRouter {
     }
 }
 
-const ingredientsRouter = new IngredientsRouter();
-ingredientsRouter.init();
-export default ingredientsRouter.router;
+const pizzaRouter = new PizzaRouter();
+pizzaRouter.init();
+export default pizzaRouter.router;

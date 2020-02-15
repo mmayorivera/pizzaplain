@@ -1,7 +1,6 @@
 import {ApiRequest, ApiResponse} from "./general";
 
 export class IngredientsRequestPayload {
-    token:string;
     page:number;
     limit:number;
     id:string;

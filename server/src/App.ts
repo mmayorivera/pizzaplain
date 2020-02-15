@@ -6,6 +6,7 @@ import {config} from './config';
 import * as logger from 'morgan';
 import * as ApiGeneralModels from './shared/models/api/general';
 import IngredientsRouter from "./routes/ingredients.router";
+import PizzaRouter  from "./routes/pizza.router";
 const connection = require('./dbconnection');
 
 class App {
@@ -67,6 +68,7 @@ class App {
         // });
         this.express.use('/', router);
         this.express.use('/api/v1/ingr', IngredientsRouter);
+        this.express.use('/api/v1/pizza', PizzaRouter);
     }
 
 }

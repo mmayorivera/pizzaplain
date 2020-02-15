@@ -7,6 +7,7 @@ export class IngredientsRequestPayload {
     id:string;
     name:string;
     ico:string;
+    body: any;
 }
 export class IngredientsResponsePayload {
     body:string;

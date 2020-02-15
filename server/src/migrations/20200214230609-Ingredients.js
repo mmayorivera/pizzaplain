@@ -1,21 +1,16 @@
 module.exports = {
   async up(db, client) {
     db.createCollection( "Ingredient", {
-      validator: { $jsonSchema: {
-          bsonType: "object",
-          required: [ "name", "ico"],
-          properties: {
-            name: {
-              bsonType: "string",
-              description: "must be a string and is required"
-            },
-            ico: {
-              bsonType: "string",
-              description: "must be a string and is required"
-            }
+      validator: {
+        $and: [
+          {
+            "name": {$type: "string", $exists: true}
+          },
+          {
+            "ico": {$type: "string", $exists: true}
           }
-        } },
-      validationLevel: "strict"
+          ]
+      }
     } );
     // TODO write your migration here.
     // See https://github.com/seppevs/migrate-mongo/#creating-a-new-migration-script

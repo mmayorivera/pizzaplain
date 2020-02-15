@@ -73,29 +73,92 @@ export class IngredientsRouter {
     public async add(req: Request, res: Response, next: NextFunction){
         const response = new IngredientsReponse();
         const request= new IngredientsRequest();
-        request.payload = req.query;
+        request.payload.body = req.body;
         response.payload = new IngredientsResponsePayload();
         var _ingredientsService = new IngredientsService(req['db']);
         const startTime = humanize.time();
         try{
-            if(request.payload==null){
-                throw new InvalidRequest("Page No. is missing");
-            } else if(request.payload.limit==null){
-                throw new InvalidRequest("Limit is missing");
+            if(request.payload.body==null){
+                throw new InvalidRequest("Invalid Payload");
             }
             var events = await _ingredientsService.add(
-                {}
+                request.payload.body
             );
             const endMark = humanize.time();
             const elapsed =  endMark - startTime;
             response.payload = events;
-            response.message = ` ${ events.records.length }(s) ${IngredientsRouter.name} [${elapsed} (ms)]`;
+            response.message = ` ${ events.records.count }(s) ${IngredientsRouter.name} [${elapsed} (ms)]`;
         } catch(err) {
             if(err instanceof InvalidRequest){
                 response.message = err.message;
                 res.statusCode = 400;//bad request
             }else{
-                response.message = "error";
+                response.message = err || "error" ;
+                res.statusCode = 500;//internal server error
+            }
+        }
+        res.send(response);
+    }
+
+    public async update(req: Request, res: Response, next: NextFunction){
+        const response = new IngredientsReponse();
+        const request= new IngredientsRequest();
+        request.payload.id = req.params.id;
+        request.payload.body = req.body;
+        response.payload = new IngredientsResponsePayload();
+        var _ingredientsService = new IngredientsService(req['db']);
+        const startTime = humanize.time();
+        try{
+            if(request.payload.body==null){
+                throw new InvalidRequest("Invalid Payload");
+            } else if(request.payload.id ==null){
+                throw new InvalidRequest("Id must be valid");
+            }
+
+            var events = await _ingredientsService.update(
+                request.payload.id,
+                request.payload.body
+            );
+            const endMark = humanize.time();
+            const elapsed =  endMark - startTime;
+            response.payload = events;
+            response.message = ` ${ events.records.count }(s) ${IngredientsRouter.name} [${elapsed} (ms)]`;
+        } catch(err) {
+            if(err instanceof InvalidRequest){
+                response.message = err.message;
+                res.statusCode = 400;//bad request
+            }else{
+                response.message = err || "error" ;
+                res.statusCode = 500;//internal server error
+            }
+        }
+        res.send(response);
+    }
+
+    public async delete(req: Request, res: Response, next: NextFunction){
+        const response = new IngredientsReponse();
+        const request= new IngredientsRequest();
+        request.payload.id = req.params.id;
+        response.payload = new IngredientsResponsePayload();
+        var _ingredientsService = new IngredientsService(req['db']);
+        const startTime = humanize.time();
+        try{
+            if(request.payload.id ==null){
+                throw new InvalidRequest("Id must be valid");
+            }
+            var events = await _ingredientsService.delete(
+                request.payload.id
+            );
+            const endMark = humanize.time();
+            const elapsed =  endMark - startTime;
+            response.payload = events;
+            response.message = ` ${ events.records.count }(s) ${IngredientsRouter.name} [${elapsed} (ms)]`;
+        } catch(err) {
+            if(err instanceof InvalidRequest){
+                response.message = err.message;
+                res.statusCode = 400;//bad request
+            }else{
+                response.message = err || "error" ;
                 res.statusCode = 500;//internal server error
             }
         }
@@ -106,6 +169,9 @@ export class IngredientsRouter {
 
         this.router.get('/', this.all);
         this.router.get('/count', this.count);
+        this.router.put('/add', this.add);
+        this.router.post('/:id', this.update);
+        this.router.delete('/:id', this.delete);
     }
 }
 

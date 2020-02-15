@@ -10,13 +10,13 @@ const configs = {
         host: process.env.APP_HOST || '0.0.0.0',
         port: process.env.APP_PORT || 8080,
         mongo: {
-            url: "mongodb://localhost:27017/admin",
+            url: "mongodb://localhost:27017/truepizza",
             options: {
                 bufferMaxEntries:   0,
                 useNewUrlParser: true,
                 useUnifiedTopology: true
             },
-            dbname: "admin"
+            dbname: "truepizza"
         }
     },
     production: {

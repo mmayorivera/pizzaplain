@@ -2,7 +2,30 @@
 =================
 Exercise Plain Server rest api
 
+# Technologies Used
+============
 
+- mongodb, typescript, nodejs, express
+
+#Features
+=========
+
+-- mongodb
+----Migrations 
+
+-- API
+---- Pizza
+---- Ingredients
+
+# Problems known:
+========
+
+-- Typescript can not implement very well interfaces
+    !!! Workaround made
+
+
+#Model 
+==========
 enum IngredientIco {
   anchovy
   bacon

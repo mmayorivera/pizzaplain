@@ -13,7 +13,6 @@ export class IngredientsRouter {
 
     public async count(req: Request, res: Response, next: NextFunction){
         const response = new IngredientsReponse();
-        const request = new IngredientsRequest();
         response.payload = new IngredientsResponsePayload();
         const _ingredientsService = new IngredientsService(req['db']);
         const startTime = humanize.time();
@@ -165,10 +164,41 @@ export class IngredientsRouter {
         res.send(response);
     }
 
+    public async byId(req: Request, res: Response, next: NextFunction){
+        const response = new IngredientsReponse();
+        const request= new IngredientsRequest();
+        request.payload.id = req.params.id;
+        response.payload = new IngredientsResponsePayload();
+        var _ingredientsService = new IngredientsService(req['db']);
+        const startTime = humanize.time();
+        try{
+            if(request.payload.id ==null){
+                throw new InvalidRequest("Id must be valid");
+            }
+            var events = await _ingredientsService.byId(
+                request.payload.id
+            );
+            const endMark = humanize.time();
+            const elapsed =  endMark - startTime;
+            response.payload = events;
+            response.message = ` ${ events.records.count }(s) ${IngredientsRouter.name} [${elapsed} (ms)]`;
+        } catch(err) {
+            if(err instanceof InvalidRequest){
+                response.message = err.message;
+                res.statusCode = 400;//bad request
+            }else{
+                response.message = err || "error" ;
+                res.statusCode = 500;//internal server error
+            }
+        }
+        res.send(response);
+    }
+
     init() {
 
         this.router.get('/', this.all);
         this.router.get('/count', this.count);
+        this.router.get('/:id/get', this.byId);
         this.router.put('/add', this.add);
         this.router.post('/:id', this.update);
         this.router.delete('/:id', this.delete);

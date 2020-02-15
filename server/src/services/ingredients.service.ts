@@ -11,7 +11,7 @@ export class IngredientsService {
 
     count():Promise<any> {
         const self = this.client;
-        return new Promise<any>(function(resolve, reject) {
+        return new Promise<any>((resolve, reject) => {
             self.countDocuments({}, (err, docs) => {
                 if (err) {
                     return reject(err);
@@ -29,7 +29,7 @@ export class IngredientsService {
         page = page-1 < 0 ? 1 : page;
         let skip = ((page - 1) * limit) + 1;
         skip = skip == 1 ? 0 : skip;
-        return new Promise<any>(function(resolve, reject) {
+        return new Promise<any>((resolve, reject) => {
             self.find({},
                 {
                     limit: limit ,
@@ -39,9 +39,12 @@ export class IngredientsService {
                     if (err) {
                         return reject(err);
                     }
-                    return resolve({
-                        success: true,
-                        records: docs
+                    this.count().then( nbr => {
+                        return resolve({
+                            success: true,
+                            totalRecords: nbr.records,
+                            records: docs
+                        });
                     });
             });
         });
@@ -65,9 +68,33 @@ export class IngredientsService {
         });
     }
 
-    update(id:string , doc: any): Promise<any> {
+    byId(id:string): Promise<any> {
         const self = this.client;
         return new Promise<any>(function(resolve, reject) {
+            self.findOne( {
+                _id: ObjectID(id)
+            }, (err, docs) => {
+                if (docs === null) {
+                    return reject( 'Not Found' );
+                }
+                if (err) {
+                    return reject(err.errmsg );
+                }
+                return resolve({
+                    success: true,
+                    records: {
+                        found: docs,
+                        count: 1
+                    }
+
+                });
+            });
+        });
+    }
+
+    update(id:string , doc: any): Promise<any> {
+        const self = this.client;
+        return new Promise<any>((resolve, reject) => {
             self.updateOne(
                 {
                     _id: ObjectID(id)
@@ -92,7 +119,7 @@ export class IngredientsService {
 
     delete(id:string ): Promise<any> {
         const self = this.client;
-        return new Promise<any>(function(resolve, reject) {
+        return new Promise<any>((resolve, reject) => {
             self.deleteOne(
                 {
                     _id: ObjectID(id)

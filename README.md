@@ -55,3 +55,7 @@ type Pizza @model
   name: String!
   toppingsList: String!
 }
+
+Notes:
+
+https://github.com/seppevs/migrate-mongo

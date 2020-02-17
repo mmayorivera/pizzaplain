@@ -22,6 +22,7 @@ module.exports = function(app, uri, opts) {
                 next();
             })
             .catch(function (err) {
+                console.log(err);
                 connection = undefined;
                 next(err);
             });

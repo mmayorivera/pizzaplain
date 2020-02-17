@@ -52,6 +52,33 @@ export class DataService {
         });
     }
 
+    in(ids: String): Promise<any> {
+        const self = this.client;
+        const inPayload = [];
+        console.log(ids);
+        ids.split(",").forEach((_id) => {
+            inPayload.push(ObjectID(_id))
+        }) ;
+        return new Promise<any>((resolve, reject) => {
+            self.find(
+                { _id: { $in: inPayload } }
+                )
+                .toArray((err, docs) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    this.count().then( nbr => {
+                        return resolve({
+                            success: true,
+                            totalRecords: nbr.records,
+                            records: docs
+                        });
+                    });
+            });
+        });
+    }
+
+
     add(doc: any): Promise<any> {
         const self = this.client;
         return new Promise<any>(function(resolve, reject) {

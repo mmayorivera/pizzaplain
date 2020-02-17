@@ -199,8 +199,8 @@ export class PizzaRouter {
         this.router.get('/', this.all);
         this.router.get('/count', this.count);
         this.router.get('/:id/get', this.byId);
-        this.router.put('/add', this.add);
-        this.router.post('/:id', this.update);
+        this.router.post('/add', this.add);
+        this.router.put('/:id', this.update);
         this.router.delete('/:id', this.delete);
     }
 }

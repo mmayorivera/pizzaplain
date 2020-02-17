@@ -1,0 +1,29 @@
+<mat-card>
+    <mat-card-title>
+        <h2> {{pageType ==='new' ? 'New' : topping.name }} Topping</h2>
+    </mat-card-title>
+    <mat-card-content>
+        <form name="contactForm" [formGroup]="topForm" class="product w-100-p" fxLayout="column" fxFlex>
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Topping Name</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input #TopName name="name" formControlName="name" matInput required>
+                </mat-form-field>
+                <mat-form-field appearance="standard" >
+                    <mat-select formControlName="ico" placeholder="Icon">
+                        <mat-select-search [formControl]="iconFilterCtrl"></mat-select-search>
+                        <mat-option *ngFor="let option of filteredIconProducts | async" [value]="option.value">
+                            {{option.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-label>Icon</mat-label>
+                </mat-form-field>
+        </form>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button [disabled]="topForm.invalid || topForm.pristine" *ngIf="pageType ==='new'" (click)="Add()">Add</button>
+        <button mat-raised-button [disabled]="topForm.invalid || topForm.pristine" *ngIf="pageType ==='edit'" (click)="Save()">Save</button>
+        <button mat-raised-button *ngIf="pageType ==='edit'" (click)="Delete(topping._id)">Delete</button>
+        <button mat-raised-button (click)="Cancel()">Cancel</button>
+    </mat-card-actions>
+</mat-card>

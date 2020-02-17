@@ -1,0 +1,80 @@
+@import '~@angular/material/theming';
+
+topboard {
+  min-height: 100%;
+
+  #toppings {
+    width: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+
+    .header {
+
+      h1 {
+        font-size: 40px;
+        font-weight: 300;
+      }
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+    }
+
+    .step-navigation {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      bottom: 50px;
+      max-width: 944px;
+      padding: 0 24px;
+      width: 100%;
+      left: 60%;
+      transform: translateX(-50%);
+
+      .previous {
+        margin-right: auto;
+      }
+
+      .next,
+      .done {
+        margin-left: auto;
+      }
+    }
+
+    .toppings-list {
+      padding: 32px 0;
+      max-height: none !important;
+
+      .toppings-list-item {
+        min-width: 210px;
+        min-height: 210px;
+        width: 210px;
+        height: 210px;
+        padding: 24px 0;
+        margin: 16px;
+        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.12);
+        transition: box-shadow 150ms ease-in;
+        cursor: pointer;
+
+        &:hover:not(.add-new-board) {
+          @include mat-elevation(8);
+        }
+
+        .topping-name {
+          padding: 16px 32px 0 32px;
+          font-weight: 300;
+          font-size: 16px;
+          text-align: center;
+        }
+
+        &.add-new-topping {
+          background: rgba(0, 0, 0, 0.06);
+          border: 2px dashed rgba(255, 255, 255, 0.37);
+        }
+      }
+    }
+  }
+}
+

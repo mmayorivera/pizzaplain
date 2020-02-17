@@ -1,0 +1,47 @@
+<!-- SIDEBAR HEADER -->
+<div class="header accent p-12" fxLayout="column" fxLayoutAlign="space-between">
+
+    <div #enableButton  class="toolbar" fxLayout="row" fxLayoutAlign="start center">
+        <h1> {{pageType ==='new' ? 'New' : product.name }} Pizza</h1>
+
+    </div>
+
+</div>
+<!-- / SIDEBAR HEADER -->
+
+<!-- SIDEBAR CONTENT -->
+<div #toolbarDetails class="content p-24" fusePerfectScrollbar>
+    <products-display
+            [toppingList]="toppingIcons">
+    </products-display>
+    <div class="products tab-content p-24" fusePerfectScrollbar>
+        <mat-card>
+            <mat-card-content>
+                <form name="contactForm" [formGroup]="topForm" class="product w-100-p" fxLayout="column" fxFlex>
+                    <mat-form-field appearance="outline" floatLabel="always">
+                        <mat-label>Pizza Name</mat-label>
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                        <input #TopName name="name" formControlName="name" matInput required>
+                    </mat-form-field>
+                    <div class="checkbox-section">
+                        <p>Select the Toppings you would like to add to your Pizza</p>
+                      <pizza-toppings [value]="selectedToppings"
+                        formControlName="toppingsList" (selectedToppingsItems)="selectedToppingItems($event)">
+                      </pizza-toppings>
+                    </div>
+                </form>
+
+            </mat-card-content>
+            {{isDirty}}
+            <mat-card-actions>
+                <button mat-raised-button [disabled]="topForm.invalid || topForm.pristine" *ngIf="pageType ==='new'" (click)="Add()">Add</button>
+                <button mat-raised-button [disabled]="topForm.invalid " *ngIf="pageType ==='edit'" (click)="Save()">Save</button>
+                <button #deleteButton mat-raised-button *ngIf="pageType ==='edit'" (click)="Delete(product._id)">Delete</button>
+            </mat-card-actions>
+
+
+        </mat-card>
+    </div>
+
+</div>
+<!-- / SIDEBAR CONTENT -->

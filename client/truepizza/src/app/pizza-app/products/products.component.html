@@ -1,0 +1,50 @@
+<!-- BOARDS -->
+<div id="products" class="fuse-navy" fxLayout="column" fxLayoutAlign="start center" fxFlex fusePerfectScrollbar>
+
+    <div class="header pt-44 pt-md-88" fxLayout="row" fxLayoutAlign="center center" fxFlex="0 0 auto"
+         [@animate]="{value:'*',params:{delay:'100ms'}}">
+        <h1>Pizza List</h1>
+    </div>
+
+    <!-- BOARD LIST -->
+    <div class="products-list" fxFlex="0 0 auto" fxLayout="row wrap" fxLayoutAlign="center center"
+         [@animateStagger]="{value:'50'}">
+
+        <!-- BOARD -->
+        <div class="products-list-item" *ngFor="let pro of products"
+             (click)="EditNewProductPanel(pro)"
+             fxLayout="column" fxLayoutAlign="center center"
+             [@animate]="{value:'*',params:{y:'100%'}}">
+            <products-display
+                    [toppingList]="pro.toppingObjs">
+            </products-display>
+            <div class="topping-name">{{pro.name}}</div>
+        </div>
+        <!-- / BOARD -->
+
+        <!-- NEW BOARD BUTTON -->
+        <div class="products-list-item add-new-product" fxLayout="column" fxLayoutAlign="center center"
+             (click)="AddNewProductPanel()"
+             [@animate]="{value:'*',params:{y:'100%'}}">
+            <mat-icon class="s-56">add_circle</mat-icon>
+            <div class="board-name">Add new Pizza</div>
+        </div>
+        <!-- / NEW BOARD BUTTON -->
+
+    </div>
+
+
+
+    <!-- / BOARD LIST -->
+    <div class="step-navigation">
+
+
+        <button mat-flat-button class="next mat-accent fuse-white-fg"
+                (click)="onNextPage(nextPage)"
+                [@animate]="{value:'*', params:{delay:'300ms',scale:'0.2'}}"
+        >
+            <mat-icon>chevron_right</mat-icon>
+        </button>
+    </div>
+</div>
+<!-- / BOARDS -->

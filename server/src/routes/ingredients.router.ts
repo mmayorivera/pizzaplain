@@ -13,6 +13,7 @@ export class IngredientsRouter {
     }
 
     public async count(req: Request, res: Response, next: NextFunction){
+        const self = this;
         const response = new IngredientsReponse();
         response.payload = new IngredientsResponsePayload();
         const _ingredientsService = new DataService(req['db'], modelName);
@@ -36,7 +37,6 @@ export class IngredientsRouter {
     }
 
     public async all(req: Request, res: Response, next: NextFunction){
-        const self = this;
         const response = new IngredientsReponse();
         const request= new IngredientsRequest();
         request.payload = req.query;
@@ -55,6 +55,35 @@ export class IngredientsRouter {
                 pageNo,
                 pageLimit
             );
+            const endMark = humanize.time();
+            const elapsed =  endMark - startTime;
+            response.payload = events;
+            response.message = ` ${ events.records.length }(s) ${modelName} [${elapsed} (ms)]`;
+        } catch(err) {
+            if(err instanceof InvalidRequest){
+                response.message = err.message;
+                res.statusCode = 400;//bad request
+            }else{
+                response.message = "error";
+                res.statusCode = 500;//internal server error
+            }
+        }
+        res.send(response);
+    }
+
+
+    public async in(req: Request, res: Response, next: NextFunction){
+        const response = new IngredientsReponse();
+        const request= new IngredientsRequest();
+        request.payload = req.query;
+        response.payload = new IngredientsResponsePayload();
+        const _ingredientsService = new DataService(req['db'], modelName);
+        const startTime = humanize.time();
+        try{
+            if(request.payload.idList === null){
+                throw new InvalidRequest("Ids Missing");
+            } 
+            var events = await _ingredientsService.in(request.payload.idList);
             const endMark = humanize.time();
             const elapsed =  endMark - startTime;
             response.payload = events;
@@ -200,9 +229,10 @@ export class IngredientsRouter {
 
         this.router.get('/', this.all);
         this.router.get('/count', this.count);
+        this.router.get('/byIds', this.in);
         this.router.get('/:id/get', this.byId);
-        this.router.put('/add', this.add);
-        this.router.post('/:id', this.update);
+        this.router.post('/add', this.add);
+        this.router.put('/:id', this.update);
         this.router.delete('/:id', this.delete);
     }
 }

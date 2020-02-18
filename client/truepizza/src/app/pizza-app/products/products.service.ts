@@ -150,7 +150,7 @@ export class ProductsService implements Resolve<any> {
           .subscribe((res) => {
             this.refresh();
             resolve(res);
-          })
+          });
     });
   }
 }

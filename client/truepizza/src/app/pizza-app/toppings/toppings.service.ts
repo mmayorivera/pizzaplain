@@ -53,17 +53,14 @@ export class ToppingsService implements Resolve<any> {
   getList(searchTxt?: string, pageSize?: number, pageNo?: number): Promise<any> {
     let filter: any ;
     if (searchTxt !== undefined && !_.isEmpty(searchTxt) && searchTxt) {
-      filter = {
-        name: { contains: searchTxt}
-      };
+      filter = searchTxt;
     } else {
-          filter = null;
-      }
-
+      filter = null;
+    }
     this.pageSize  = pageSize > 0 ? pageSize : 10;
     this.pageNo  = pageNo > 0 ? pageNo : 0;
     return new Promise((resolve, reject) => {
-      this.api.all(this.pageNo, this.pageSize, this.model)
+      this.api.all(this.pageNo, this.pageSize, this.model, filter)
           .subscribe((result) => {
               this.items = result.payload.records;
               this.onItemsChanged.next(this.items);

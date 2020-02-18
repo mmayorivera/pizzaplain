@@ -18,8 +18,8 @@ export class DataService {
   };
 
   // GET
-  all(page: number, limit: number, model: string): Observable<any> {
-    return this.http.get<any>(this.baseurl + `/${model}?page=${page}&limit=${limit}`)
+  all(page: number, limit: number, model: string, search?: string): Observable<any> {
+    return this.http.get<any>(this.baseurl + `/${model}?page=${page}&limit=${limit}&txt=${search}`)
       .pipe(
         retry(1),
         catchError(this.errorHandl)

@@ -26,13 +26,17 @@ export class DataService {
         });
     }
 
-    all(page: number, limit: number): Promise<any> {
+    all(page: number, limit: number, txt?: string): Promise<any> {
         const self = this.client;
         page = page-1 < 0 ? 1 : page;
         let skip = ((page - 1) * limit) + 1;
         skip = skip == 1 ? 0 : skip;
+        let filter = {};
+        if (txt!=='null' && txt.length>0) {
+            filter = { 'name':  { '$regex' : txt, '$options' : 'i' } };
+        } 
         return new Promise<any>((resolve, reject) => {
-            self.find({},
+            self.find(filter,
                 {
                     limit: limit ,
                     skip: skip

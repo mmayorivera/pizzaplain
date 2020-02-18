@@ -53,7 +53,8 @@ export class IngredientsRouter {
             var pageLimit = parseInt(request.payload.limit.toString());
             var events = await _ingredientsService.all(
                 pageNo,
-                pageLimit
+                pageLimit,
+                request.payload.txt
             );
             const endMark = humanize.time();
             const elapsed =  endMark - startTime;

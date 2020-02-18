@@ -8,6 +8,7 @@ export class IngredientsRequestPayload {
     ico:string;
     body: any;
     idList: any;
+    txt: any;
 }
 export class IngredientsResponsePayload {
     body:string;

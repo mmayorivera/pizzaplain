@@ -4,11 +4,13 @@
       <mat-icon>menu</mat-icon>
     </button>
   </div>
-  <div>
-    <a routerLink="/pizzas">Pizzas</a>
-  </div>
+  <search-bar></search-bar>
+
   <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
     <ul fxLayout fxLayoutGap="15px" class="navigation-items">
+      <li>
+        <a routerLink="/pizzas">Pizzas</a>
+      </li>
       <li>
         <a routerLink="/toppings">Toppings</a>
       </li>

@@ -120,6 +120,7 @@ export class PizzaItemComponent implements OnInit , OnDestroy {
     const data = this.topForm.getRawValue();
     data.toppingsList = data.toppingsList.toString();
     this._productsService.getListTopsByArray(data.toppingsList).then((list) => {
+        data.toppingObjs = list;
         this._productsService.createItem(data)
           .then((res) => {
             this._productsService.onErrorOrSuccess.next('Pizza Created Sucessfully!!');

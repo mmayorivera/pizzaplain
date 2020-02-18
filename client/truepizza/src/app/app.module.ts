@@ -34,6 +34,7 @@ import {ToppingsService} from './pizza-app/toppings/toppings.service';
 import {ProductsService} from './pizza-app/products/products.service';
 import {PizzaItemComponent} from './pizza-app/products/pizza-item/pizza-item.component';
 import {PizzaToppingsComponent} from './pizza-app/toppings/pizza-toppings.component';
+import {SearchBarComponent} from './core/search-bar/search-bar.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {PizzaToppingsComponent} from './pizza-app/toppings/pizza-toppings.compon
     ProductsComponent,
     ProductsDisplayComponent,
     PizzaItemComponent,
-    PizzaToppingsComponent
+    PizzaToppingsComponent,
+    SearchBarComponent
   ],
   imports: [
     BrowserModule,

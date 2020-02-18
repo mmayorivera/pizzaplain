@@ -7,6 +7,7 @@ export class PizzaRequestPayload {
     name:string;
     ico:string;
     body: any;
+    txt: any;
 }
 export class PizzaResponsePayload {
     body:string;

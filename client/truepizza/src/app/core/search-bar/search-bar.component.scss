@@ -1,0 +1,11 @@
+.search-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 500px;
+}
+
+.form-field {
+  min-width: 60px;
+  flex: 1 auto;
+}

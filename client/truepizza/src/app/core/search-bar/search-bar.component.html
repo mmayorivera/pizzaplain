@@ -1,0 +1,13 @@
+<div class="search-box">
+  <mat-form-field
+    class="form-field"
+    [floatLabel]="'never'">
+    <input #filter matInput type="text" placeholder="Buscar"/>
+  </mat-form-field>
+
+  <button mat-button mat-icon-button (click)="OnClear()"
+          matTooltip="Borrar búsqueda">
+    <mat-icon>clear</mat-icon>
+  </button>
+
+</div>

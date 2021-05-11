@@ -16,7 +16,7 @@
     "express": "^4.17.1",
     "humanize": "^0.0.9",
     "install": "^0.13.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "log4js": "^6.1.2",
     "mongodb": "^3.5.3",
     "morgan": "^1.9.1",
